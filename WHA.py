@@ -5,17 +5,24 @@ import altair as alt
 # Step 1: Load the cleaned data
 @st.cache_data
 def load_data():
-    df = pd.read_csv("gdp_year_with_more.csv")  # Adjust the path as needed
+    df = pd.read_csv("gdp_year_with_more_cleaned.csv")  # Adjust the path as needed
 
-    # Standardize column names (if not already done in the saved CSV)
+    # Standardize column names
     df.columns = df.columns.str.strip().str.lower().str.replace(' ', '_')
 
+    # Display any non-numeric values for debugging
+    st.write("Non-numeric values in 'increase' column:", df['increase'][~df['increase'].str.replace({'\$': '', ',': ''}, regex=True).apply(lambda x: x.replace('.', '', 1).isdigit())])
+
     # Remove commas and dollar signs, then convert to numeric
-    df['gdp'] = df['gdp'].replace({'\$': '', ',': ''}, regex=True).astype(float)
-    df['growth'] = df['growth'].replace({'\$': '', ',': ''}, regex=True).astype(float)
-    df['inflation_rate'] = df['inflation_rate'].replace({'\$': '', ',': ''}, regex=True).astype(float)
-    df['debt'] = df['debt'].replace({'\$': '', ',': ''}, regex=True).astype(float)
-    df['increase'] = df['increase'].replace({'\$': '', ',': ''}, regex=True).astype(float)
+    try:
+        df['gdp'] = df['gdp'].replace({'\$': '', ',': ''}, regex=True).astype(float)
+        df['growth'] = df['growth'].replace({'\$': '', ',': ''}, regex=True).astype(float)
+        df['inflation_rate'] = df['inflation_rate'].replace({'\$': '', ',': ''}, regex=True).astype(float)
+        df['debt'] = df['debt'].replace({'\$': '', ',': ''}, regex=True).astype(float)
+        df['increase'] = df['increase'].replace({'\$': '', ',': ''}, regex=True).astype(float)
+    except ValueError as e:
+        st.error(f"Error converting column to float: {e}")
+        st.stop()
 
     return df
 
