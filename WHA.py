@@ -10,8 +10,8 @@ def load_data():
     # Standardize column names
     df.columns = df.columns.str.strip().str.lower().str.replace(' ', '_')
 
-    # Display column names for debugging
-    st.write("Columns in the dataset:", df.columns.tolist())
+    # Replace NaN values with 0
+    df = df.fillna(0)
 
     # Remove commas and dollar signs, then convert to numeric
     df['gdp'] = df['gdp'].replace({'\$': '', ',': ''}, regex=True).astype(float)
@@ -47,14 +47,11 @@ for president in selected_presidents:
     pres_data = []
     df_pres = df[df['president'] == president]
 
-    # Debugging: print the columns of the filtered DataFrame
-    st.write(f"Columns in {president}'s data:", df_pres.columns.tolist())
-
     for metric in selected_metrics:
         if metric in df_pres.columns:
             pres_data.append(df_pres[metric].mean())
         else:
-            st.error(f"Column '{metric}' not found for {president}.")
+            st.error(f"Column '{metric}' not found for President '{president}'.")
             pres_data.append(None)
     comparison_data[president] = pres_data
 
