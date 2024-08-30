@@ -5,14 +5,20 @@ import altair as alt
 # Step 1: Load the data and clean it
 @st.cache_data
 def load_data():
-    df = pd.read_csv("gdp_year_with_more.csv")  # Assume the file is in the same directory
+    df = pd.read_csv("gdp_year_with_more.csv")  # Adjust the path as needed
+
+    # Standardize column names
+    df.columns = df.columns.str.strip().str.lower().str.replace(' ', '_')
+
+    # Display column names for debugging
+    st.write("Columns in the dataset:", df.columns.tolist())
 
     # Remove commas and dollar signs, then convert to numeric
-    df['GDP'] = df['GDP'].replace({'\$': '', ',': ''}, regex=True).astype(float)
-    df['Growth'] = df['Growth'].replace({'\$': '', ',': ''}, regex=True).astype(float)
-    df['inflation rate'] = df['inflation rate'].replace({'\$': '', ',': ''}, regex=True).astype(float)
-    df['Debt'] = df['Debt'].replace({'\$': '', ',': ''}, regex=True).astype(float)
-    df['Increase'] = df['Increase'].replace({'\$': '', ',': ''}, regex=True).astype(float)
+    df['gdp'] = df['gdp'].replace({'\$': '', ',': ''}, regex=True).astype(float)
+    df['growth'] = df['growth'].replace({'\$': '', ',': ''}, regex=True).astype(float)
+    df['inflation_rate'] = df['inflation_rate'].replace({'\$': '', ',': ''}, regex=True).astype(float)
+    df['debt'] = df['debt'].replace({'\$': '', ',': ''}, regex=True).astype(float)
+    df['increase'] = df['increase'].replace({'\$': '', ',': ''}, regex=True).astype(float)
 
     return df
 
@@ -30,18 +36,26 @@ st.write("""
 """)
 
 # Step 3: President and Metric Selection
-presidents = df['President'].unique()
+presidents = df['president'].unique()
 selected_presidents = st.multiselect("Select Presidents to compare", options=presidents, default=[presidents[0], presidents[1]])
-selected_metrics = ["GDP", "Growth", "Inflation Rate", "Debt", "Increase"]
+selected_metrics = ["gdp", "growth", "inflation_rate", "debt", "increase"]
 
 # Step 4: Prepare Comparison Data
 comparison_data = {"Metric": selected_metrics}
 
 for president in selected_presidents:
     pres_data = []
-    df_pres = df[df['President'] == president]
+    df_pres = df[df['president'] == president]
+
+    # Debugging: print the columns of the filtered DataFrame
+    st.write(f"Columns in {president}'s data:", df_pres.columns.tolist())
+
     for metric in selected_metrics:
-        pres_data.append(df_pres[metric].mean())
+        if metric in df_pres.columns:
+            pres_data.append(df_pres[metric].mean())
+        else:
+            st.error(f"Column '{metric}' not found for {president}.")
+            pres_data.append(None)
     comparison_data[president] = pres_data
 
 comparison_df = pd.DataFrame(comparison_data)
