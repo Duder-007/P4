@@ -35,7 +35,6 @@ df = load_data()
 # President Image URLs (these URLs are from the official White House website)
 president_images = {
   # President Image URLs (these URLs are from the official White House website)
-president_images = {
     "George Washington": "https://www.whitehouse.gov/wp-content/uploads/2021/01/01_georgewashington.jpg",
     "John Adams": "https://www.whitehouse.gov/wp-content/uploads/2021/01/02_johnadams.jpg",
     "Thomas Jefferson": "https://www.whitehouse.gov/wp-content/uploads/2021/01/03_thomasjefferson.jpg",
