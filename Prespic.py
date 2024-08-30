@@ -82,7 +82,6 @@ president_images = {
     "Joseph R. Biden": "https://www.whitehouse.gov/wp-content/uploads/2021/01/46_josephrjbiden.jpg"
 }
 
-}
 
 # Step 2: Streamlit App Setup
 st.title("Presidential Economic Performance Comparison")
