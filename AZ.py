@@ -3,9 +3,11 @@ import pandas as pd
 import altair as alt
 
 # Step 1: Load the data and clean it
-@st.cache
+@st.cache_data
 def load_data():
-    df = pd.read_csv("C:/Repos/Proj4/gdp_year_with_more.csv")
+    # If running locally, ensure this file is in the same directory, or provide a correct relative path.
+    # If running in the cloud or from GitHub, you might use an online URL to the CSV.
+    df = pd.read_csv("gdp_year_with_more.csv")  # Assume the file is in the same directory
 
     # Remove commas and dollar signs, then convert to numeric
     df['GDP'] = df['GDP'].replace({'\$': '', ',': ''}, regex=True).astype(float)
