@@ -13,12 +13,20 @@ def load_data():
     # Replace NaN values with 0
     df = df.fillna(0)
 
-    # Remove commas and dollar signs, then convert to numeric
-    df['gdp'] = df['gdp'].replace({'\$': '', ',': ''}, regex=True).astype(float)
-    df['growth'] = df['growth'].replace({'\$': '', ',': ''}, regex=True).astype(float)
-    df['inflation_rate'] = df['inflation_rate'].replace({'\$': '', ',': ''}, regex=True).astype(float)
-    df['debt'] = df['debt'].replace({'\$': '', ',': ''}, regex=True).astype(float)
-    df['increase'] = df['increase'].replace({'\$': '', ',': ''}, regex=True).astype(float)
+    # Function to clean and convert columns to float
+    def clean_column(column):
+        # Remove any non-numeric characters and convert to float
+        df[column] = df[column].replace({'\$': '', ',': ''}, regex=True)
+        df[column] = pd.to_numeric(df[column], errors='coerce')  # Convert non-numeric to NaN
+        df[column] = df[column].fillna(0)  # Replace NaN with 0
+        df[column] = df[column].astype(float)
+    
+    # Clean specific columns
+    clean_column('gdp')
+    clean_column('growth')
+    clean_column('inflation_rate')
+    clean_column('debt')
+    clean_column('increase')
 
     return df
 
