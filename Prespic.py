@@ -5,7 +5,7 @@ import altair as alt
 # Step 1: Load and clean the data
 @st.cache_data
 def load_data():
-    df = pd.read_csv("/mnt/data/gdp_year_with_more.csv")
+    df = pd.read_csv("gdp_year_with_more.csv")
 
     # Standardize column names
     df.columns = df.columns.str.strip().str.lower().str.replace(' ', '_')
