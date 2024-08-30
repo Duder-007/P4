@@ -2,16 +2,13 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 
-# Step 1: Load the data and clean it
+# Step 1: Load the cleaned data
 @st.cache_data
 def load_data():
-    df = pd.read_csv("gdp_year_with_more.csv")  # Adjust the path as needed
+    df = pd.read_csv("gdp_year_with_more_cleaned.csv")  # Adjust the path as needed
 
-    # Standardize column names
+    # Standardize column names (if not already done in the saved CSV)
     df.columns = df.columns.str.strip().str.lower().str.replace(' ', '_')
-
-    # Replace NaN values with 0
-    df = df.fillna(0)
 
     # Remove commas and dollar signs, then convert to numeric
     df['gdp'] = df['gdp'].replace({'\$': '', ',': ''}, regex=True).astype(float)
