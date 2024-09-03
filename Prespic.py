@@ -5,7 +5,7 @@ import altair as alt
 # Step 1: Load and clean the data
 @st.cache_data
 def load_data():
-    df = pd.read_csv("/mnt/data/gdp_year_with_more.csv")
+    df = pd.read_csv("gdp_year_with_more.csv")
 
     # Standardize column names
     df.columns = df.columns.str.strip().str.lower().str.replace(' ', '_')
@@ -34,10 +34,54 @@ df = load_data()
 
 # President Image URLs (these URLs are from the official White House website)
 president_images = {
+  # President Image URLs (these URLs are from the official White House website)
+    "George Washington": "https://www.whitehouse.gov/wp-content/uploads/2021/01/01_georgewashington.jpg",
+    "John Adams": "https://www.whitehouse.gov/wp-content/uploads/2021/01/02_johnadams.jpg",
+    "Thomas Jefferson": "https://www.whitehouse.gov/wp-content/uploads/2021/01/03_thomasjefferson.jpg",
+    "James Madison": "https://www.whitehouse.gov/wp-content/uploads/2021/01/04_jamesmadison.jpg",
+    "James Monroe": "https://www.whitehouse.gov/wp-content/uploads/2021/01/05_jamesmonroe.jpg",
+    "John Quincy Adams": "https://www.whitehouse.gov/wp-content/uploads/2021/01/06_johnquincyadams.jpg",
+    "Andrew Jackson": "https://www.whitehouse.gov/wp-content/uploads/2021/01/07_andrewjackson.jpg",
+    "Martin Van Buren": "https://www.whitehouse.gov/wp-content/uploads/2021/01/08_martinvanburen.jpg",
+    "William Henry Harrison": "https://www.whitehouse.gov/wp-content/uploads/2021/01/09_williamhenryharrison.jpg",
+    "John Tyler": "https://www.whitehouse.gov/wp-content/uploads/2021/01/10_johntyler.jpg",
+    "James K. Polk": "https://www.whitehouse.gov/wp-content/uploads/2021/01/11_jameskpolk.jpg",
+    "Zachary Taylor": "https://www.whitehouse.gov/wp-content/uploads/2021/01/12_zacharytaylor.jpg",
+    "Millard Fillmore": "https://www.whitehouse.gov/wp-content/uploads/2021/01/13_millardfillmore.jpg",
+    "Franklin Pierce": "https://www.whitehouse.gov/wp-content/uploads/2021/01/14_franklinpierce.jpg",
+    "James Buchanan": "https://www.whitehouse.gov/wp-content/uploads/2021/01/15_jamesbuchanan.jpg",
+    "Abraham Lincoln": "https://www.whitehouse.gov/wp-content/uploads/2021/01/16_abrahamlincoln.jpg",
+    "Andrew Johnson": "https://www.whitehouse.gov/wp-content/uploads/2021/01/17_andrewjohnson.jpg",
+    "Ulysses S. Grant": "https://www.whitehouse.gov/wp-content/uploads/2021/01/18_ulyssessgrant.jpg",
+    "Rutherford B. Hayes": "https://www.whitehouse.gov/wp-content/uploads/2021/01/19_rutherfordbhayes.jpg",
+    "James A. Garfield": "https://www.whitehouse.gov/wp-content/uploads/2021/01/20_jamesagarfield.jpg",
+    "Chester A. Arthur": "https://www.whitehouse.gov/wp-content/uploads/2021/01/21_chesteraarthur.jpg",
+    "Grover Cleveland": "https://www.whitehouse.gov/wp-content/uploads/2021/01/22_grovercleveland.jpg",
+    "Benjamin Harrison": "https://www.whitehouse.gov/wp-content/uploads/2021/01/23_benjaminharrison.jpg",
+    "William McKinley": "https://www.whitehouse.gov/wp-content/uploads/2021/01/25_williammckinley.jpg",
+    "Theodore Roosevelt": "https://www.whitehouse.gov/wp-content/uploads/2021/01/26_theodoreroosevelt.jpg",
+    "William Howard Taft": "https://www.whitehouse.gov/wp-content/uploads/2021/01/27_williamhowardtaft.jpg",
+    "Woodrow Wilson": "https://www.whitehouse.gov/wp-content/uploads/2021/01/28_woodrowwilson.jpg",
+    "Warren G. Harding": "https://www.whitehouse.gov/wp-content/uploads/2021/01/29_warrengharding.jpg",
+    "Calvin Coolidge": "https://www.whitehouse.gov/wp-content/uploads/2021/01/30_calvincoolidge.jpg",
     "Herbert Hoover": "https://www.whitehouse.gov/wp-content/uploads/2021/01/31_herberthoover.jpg",
     "Franklin D. Roosevelt": "https://www.whitehouse.gov/wp-content/uploads/2021/01/32_franklindroosevelt.jpg",
-    # Add other presidents and their image URLs here
+    "Harry S. Truman": "https://www.whitehouse.gov/wp-content/uploads/2021/01/33_harrystruman.jpg",
+    "Dwight D. Eisenhower": "https://www.whitehouse.gov/wp-content/uploads/2021/01/34_dwightdeisenhower.jpg",
+    "John F. Kennedy": "https://www.whitehouse.gov/wp-content/uploads/2021/01/35_johnfkennedy.jpg",
+    "Lyndon B. Johnson": "https://www.whitehouse.gov/wp-content/uploads/2021/01/36_lyndonbjohnson.jpg",
+    "Richard Nixon": "https://www.whitehouse.gov/wp-content/uploads/2021/01/37_richardnixon.jpg",
+    "Gerald Ford": "https://www.whitehouse.gov/wp-content/uploads/2021/01/38_geraldford.jpg",
+    "Jimmy Carter": "https://www.whitehouse.gov/wp-content/uploads/2021/01/39_jimmycarter.jpg",
+    "Ronald Reagan": "https://www.whitehouse.gov/wp-content/uploads/2021/01/40_ronaldreagan.jpg",
+    "George H. W. Bush": "https://www.whitehouse.gov/wp-content/uploads/2021/01/41_georgehwbush.jpg",
+    "Bill Clinton": "https://www.whitehouse.gov/wp-content/uploads/2021/01/42_billclinton.jpg",
+    "George W. Bush": "https://www.whitehouse.gov/wp-content/uploads/2021/01/43_georgewbush.jpg",
+    "Barack Obama": "https://www.whitehouse.gov/wp-content/uploads/2021/01/44_barackobama.jpg",
+    "Donald J. Trump": "https://www.whitehouse.gov/wp-content/uploads/2021/01/45_donaldjtrump.jpg",
+    "Joseph R. Biden": "https://www.whitehouse.gov/wp-content/uploads/2021/01/46_josephrjbiden.jpg"
 }
+
 
 # Step 2: Streamlit App Setup
 st.title("Presidential Economic Performance Comparison")
